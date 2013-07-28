@@ -8,7 +8,7 @@ RUN echo deb http://archive.ubuntu.com/ubuntu precise main universe multiverse >
 
 # Install Java
 RUN apt-get update
-RUN apt-get install wget default-jre-headless -y
+RUN apt-get install wget openjdk-7-jre-headless -y
 
 # Install riemann
 RUN wget http://aphyr.com/riemann/riemann_0.2.2_all.deb
