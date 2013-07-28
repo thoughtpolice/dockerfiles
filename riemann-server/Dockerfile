@@ -15,8 +15,12 @@ RUN wget http://aphyr.com/riemann/riemann_0.2.2_all.deb
 RUN dpkg -i riemann_0.2.2_all.deb
 RUN rm riemann_0.2.2_all.deb
 
+# Install riemann-dash
+# TODO FIXME
+
 ADD riemann.config /etc/riemann/riemann.config
 
+EXPOSE 4567
 EXPOSE 5555
 EXPOSE 5555/udp
 EXPOSE 5556
