@@ -28,20 +28,9 @@ ENV HIVE_HOME   /opt/hive-0.9.0-bin
 ENV HADOOP_HOME /opt/hadoop-1.1.2
 ENV SHARK_HOME  /opt/shark-0.7.0
 
-# Utility scripts to run Spark
-RUN echo '#!/bin/bash'                                                  >> /opt/start-spark.sh
-RUN echo 'HOST=$(ip -4 addr show eth0 | tail -1 | cut -s -d" " -f6 | cut -d/ -f1)' >> /opt/start-spark.sh
-RUN echo 'rm -f /etc/hosts'                                             >> /opt/start-spark.sh
-RUN echo 'echo 127.0.0.1 $(hostname) >  /etc/hosts'                     >> /opt/start-spark.sh
-RUN echo 'echo $HOST $(hostname)     >> /etc/hosts'                     >> /opt/start-spark.sh
-RUN echo '/opt/spark-0.7.2/run $@ -i $HOST -p 7077 --webui-port 8080'   >> /opt/start-spark.sh
-
-RUN echo '#!/bin/bash'                                       >> /opt/start-spark-master.sh
-RUN echo '/opt/start-spark.sh spark.deploy.master.Master $@' >> /opt/start-spark-master.sh
-
-RUN echo '#!/bin/bash'                                       >> /opt/start-spark-worker.sh
-RUN echo '/opt/start-spark.sh spark.deploy.worker.Worker $@' >> /opt/start-spark-worker.sh
-
+ADD start-spark.sh /opt/start-spark.sh
+ADD start-spark-master.sh /opt/start-spark-master.sh
+ADD start-spark-worker.sh /opt/start-spark-worker.sh
 RUN chmod +x /opt/start-spark.sh /opt/start-spark-master.sh /opt/start-spark-worker.sh
 
 EXPOSE 8080
