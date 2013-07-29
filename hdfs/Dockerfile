@@ -33,25 +33,7 @@ RUN ssh-keygen -t rsa -N "" -f /home/hduser/.ssh/id_rsa
 RUN cp /home/hduser/.ssh/id_rsa.pub /home/hduser/.ssh/authorized_keys
 RUN chown -R hduser:hadoop /home/hduser/.ssh
 
-# Utility script to run HDFS
-RUN echo '#!/bin/bash'                                                  >> /opt/start-dfs.sh
-# Java needs the correct hostname
-RUN echo 'HOST=$(ip -4 addr show eth0 | tail -1 | cut -s -d" " -f6 | cut -d/ -f1)' >> /opt/start-dfs.sh
-RUN echo 'rm -f /etc/hosts'                                             >> /opt/start-dfs.sh
-RUN echo 'echo 127.0.0.1 localhost   >  /etc/hosts'                     >> /opt/start-dfs.sh
-RUN echo 'echo $HOST $(hostname)     >> /etc/hosts'                     >> /opt/start-dfs.sh
-
-# Correctly set up SSH
-RUN echo '/usr/sbin/sshd'                                               >> /opt/start-dfs.sh
-RUN echo 'su -c "ssh -o StrictHostKeyChecking=no localhost echo SSHing..." - hduser' >> /opt/start-dfs.sh
-
-# Set correct hadoop permissions and launch
-RUN echo 'mkdir -p /data/hadoop/nametable /data/hadoop/data'              >> /opt/start-dfs.sh
-RUN echo 'chown -R hduser:hadoop /data/hadoop'                            >> /opt/start-dfs.sh
-RUN echo 'echo "Y" | su -c "/opt/hadoop-1.1.2/bin/hadoop namenode -format" - hduser' >> /opt/start-dfs.sh
-RUN echo 'su -c "/opt/hadoop-1.1.2/bin/start-dfs.sh" - hduser'            >> /opt/start-dfs.sh
-RUN echo 'tail -f /opt/hadoop-1.1.2/logs/hadoop-*.log'                    >> /opt/start-dfs.sh
-
+ADD start-dfs.sh /opt/start-dfs.sh
 RUN chmod +x /opt/start-dfs.sh
 
 EXPOSE 22
