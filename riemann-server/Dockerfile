@@ -16,12 +16,17 @@ RUN dpkg -i riemann_0.2.2_all.deb
 RUN rm riemann_0.2.2_all.deb
 
 # Install riemann-dash
-# TODO FIXME
+RUN apt-get install build-essential rubygems1.9.1 ruby1.9.1-dev -y
+RUN gem install riemann-dash
 
 ADD riemann.config /etc/riemann/riemann.config
+ADD config.rb config.rb
+
+ADD start-riemann.sh /opt/start-riemann.sh
+RUN chmod +x /opt/start-riemann.sh
 
 EXPOSE 4567
 EXPOSE 5555
 EXPOSE 5555/udp
 EXPOSE 5556
-CMD echo 127.0.0.1 $(hostname) > /etc/hosts; /usr/bin/riemann -a /etc/riemann/riemann.config
+CMD /opt/start-riemann.sh
