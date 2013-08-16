@@ -14,7 +14,7 @@ RUN apt-get install python-software-properties less -y
 # Install RethinkDB
 RUN add-apt-repository ppa:rethinkdb/ppa -y
 RUN apt-get update
-RUN apt-get install rethinkdb -y
+RUN DEBIAN_FRONTEND=noninteractive apt-get install rethinkdb -y
 
 # Set correct permissions for /data
 RUN mkdir /data
