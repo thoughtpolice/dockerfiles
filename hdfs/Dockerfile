@@ -1,4 +1,4 @@
-# DOCKER-VERSION 0.5
+# DOCKER-VERSION 0.6.3
 FROM    ubuntu:12.04
 MAINTAINER Austin Seipp "aseipp@pobox.com"
 
