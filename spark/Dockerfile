@@ -23,13 +23,12 @@ RUN mv /usr/local/opt/spark-0.8.0-incubating-bin-cdh4 /usr/local/opt/spark-0.8.0
 ENV SCALA_HOME  /usr/local/opt/scala-2.9.3
 ENV SPARK_HOME  /usr/local/opt/spark-0.8.0
 
-ADD scripts/fix-hosts.sh  fix-hosts.sh
 ADD scripts/pyshell.sh    pyshell.sh
 ADD scripts/shell.sh      shell.sh
 ADD scripts/run-spark.sh  run-spark.sh
 ADD scripts/worker.sh     worker.sh
 ADD scripts/master.sh     master.sh
-RUN chmod +x fix-hosts.sh pyshell.sh shell.sh run-spark.sh worker.sh master.sh
+RUN chmod +x pyshell.sh shell.sh run-spark.sh worker.sh master.sh
 
 EXPOSE 8080
 EXPOSE 8081
