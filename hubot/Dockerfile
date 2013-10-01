@@ -26,4 +26,4 @@ RUN chmod +x bin/hubot
 # Add scripts
 ADD hubot-scripts.json hubot-scripts.json
 
-CMD /bin/hubot
+CMD hubot -a irc --name $HUBOT_IRC_NICK
