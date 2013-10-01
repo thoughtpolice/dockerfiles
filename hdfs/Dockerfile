@@ -19,8 +19,12 @@ RUN apt-get update
 RUN apt-get install -y hadoop-conf-pseudo
 
 RUN sed -i'' 's/localhost/0.0.0.0/' /etc/hadoop/conf/core-site.xml
+RUN sed -i'' 's/localhost/0.0.0.0/' /etc/hadoop/conf/mapred-site.xml
 
 ADD runner.sh runner.sh
 
 EXPOSE 8020
+EXPOSE 50010
+EXPOSE 50020
 EXPOSE 50070
+EXPOSE 50075

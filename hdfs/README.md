@@ -10,16 +10,12 @@ since I use it with Spark):
 ```
 $ docker pull thoughtpolice/hdfs
 $ HDFS_MASTER=$(docker run -d thoughtpolice/hdfs /opt/start-dfs.sh)
+$ HDFS_MASTER_IP=$(docker inspect $HDFS_MASTER | grep IPAddress | awk '{ print $2 }' | tr -d ',"')
 ```
 
-Get the IP for the lxc interface:
+You can view the node HTTP interface at `$HDFS_MASTER_IP:50070`.
 
-```
-$ docker inspect $HDFS_MASTER | grep IPAddress
-```
-
-Now you can upload data to the LXC container directly on port 9000. In my case
-the IP is 172.16.42.207, so I can do:
+Now you can upload data to the LXC container directly on port 8020.
 
 ```
 $ cd $HOME/spark/hadoop-1.1.2
