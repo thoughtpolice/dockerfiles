@@ -23,4 +23,6 @@ RUN mkdir /data
 EXPOSE 8080
 EXPOSE 28015
 EXPOSE 29015
-CMD rethinkdb --bind all -d /data/rethinkdb
+
+WORKDIR /data
+CMD ["rethinkdb", "--bind", "all"]
