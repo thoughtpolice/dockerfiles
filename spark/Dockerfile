@@ -8,31 +8,29 @@ RUN echo deb http://archive.ubuntu.com/ubuntu precise main universe multiverse >
 
 # Install Java
 RUN apt-get update
-RUN apt-get install wget openjdk-7-jre-headless -y
+RUN apt-get install git wget openjdk-7-jre-headless python2.7 -y
 
 # Install Shark, Spark & Scala
-RUN wget http://www.scala-lang.org/downloads/distrib/files/scala-2.9.3.tgz
-RUN wget http://spark-project.org/download/spark-0.7.2-prebuilt-hadoop1.tgz
-RUN wget http://spark-project.org/download/shark-0.7.0-hadoop1-bin.tgz
-RUN wget http://apache.mesi.com.ar/hadoop/common/hadoop-1.1.2/hadoop-1.1.2-bin.tar.gz
-RUN tar -zxvf scala-2.9.3.tgz -C /opt/
-RUN tar -zxvf spark-0.7.2-prebuilt-hadoop1.tgz -C /opt/
-RUN tar -zxvf shark-0.7.0-hadoop1-bin.tgz -C /opt/
-RUN tar -zxvf hadoop-1.1.2-bin.tar.gz -C /opt/
-RUN rm *.tgz *.tar.gz
+RUN wget http://www.scala-lang.org/files/archive/scala-2.9.3.tgz
+RUN wget http://apache.mirrors.tds.net/incubator/spark/spark-0.8.0-incubating/spark-0.8.0-incubating-bin-cdh4.tgz
+
+RUN mkdir -p /usr/local/opt
+RUN tar xvf scala-2.9.3.tgz                     -C /usr/local/opt
+RUN tar xvf spark-0.8.0-incubating-bin-cdh4.tgz -C /usr/local/opt
+RUN mv /usr/local/opt/spark-0.8.0-incubating-bin-cdh4 /usr/local/opt/spark-0.8.0
 
 # Setup environment
-ENV SCALA_HOME  /opt/scala-2.9.3
-ENV SPARK_HOME  /opt/spark-0.7.2
-ENV HIVE_HOME   /opt/hive-0.9.0-bin
-ENV HADOOP_HOME /opt/hadoop-1.1.2
-ENV SHARK_HOME  /opt/shark-0.7.0
+ENV SCALA_HOME  /usr/local/opt/scala-2.9.3
+ENV SPARK_HOME  /usr/local/opt/spark-0.8.0
 
-ADD start-spark.sh /opt/start-spark.sh
-ADD start-spark-master.sh /opt/start-spark-master.sh
-ADD start-spark-worker.sh /opt/start-spark-worker.sh
-RUN chmod +x /opt/start-spark.sh /opt/start-spark-master.sh /opt/start-spark-worker.sh
+ADD scripts/fix-hosts.sh  fix-hosts.sh
+ADD scripts/pyshell.sh    pyshell.sh
+ADD scripts/shell.sh      shell.sh
+ADD scripts/run-spark.sh  run-spark.sh
+ADD scripts/worker.sh     worker.sh
+ADD scripts/master.sh     master.sh
+RUN chmod +x fix-hosts.sh pyshell.sh shell.sh run-spark.sh worker.sh master.sh
 
 EXPOSE 8080
+EXPOSE 8081
 EXPOSE 7077
-CMD /opt/start-spark-master.sh
