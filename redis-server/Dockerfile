@@ -16,5 +16,7 @@ RUN add-apt-repository ppa:chris-lea/redis-server -y
 RUN apt-get update
 RUN apt-get install redis-server -y
 
+ADD redis.conf /etc/redis/redis.conf
+
 EXPOSE 6379
-CMD /usr/bin/redis-server
+CMD redis-server /etc/redis/redis.conf
