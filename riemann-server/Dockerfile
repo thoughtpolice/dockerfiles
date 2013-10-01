@@ -22,11 +22,11 @@ RUN gem install riemann-dash
 ADD riemann.config /etc/riemann/riemann.config
 ADD config.rb config.rb
 
-ADD start-riemann.sh /opt/start-riemann.sh
-RUN chmod +x /opt/start-riemann.sh
+ADD start-riemann.sh start-riemann.sh
+RUN chmod +x start-riemann.sh
 
 EXPOSE 4567
 EXPOSE 5555
 EXPOSE 5555/udp
 EXPOSE 5556
-CMD /opt/start-riemann.sh
+CMD /start-riemann.sh
