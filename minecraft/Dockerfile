@@ -18,5 +18,5 @@ RUN mkdir -p /minecraft
 WORKDIR /minecraft
 VOLUME /minecraft
 
-EXPOSE 25565:25565/tcp 25565:25565/udp
+EXPOSE 25565
 ENTRYPOINT ["/usr/bin/java","-Xmx2048M", "-Xms2048M", "-jar","/minecraft_server.1.7.2.jar"]

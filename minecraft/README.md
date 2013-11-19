@@ -7,7 +7,7 @@ to stop:
 
 ```
 $ sudo docker pull thoughtpolice/minecraft
-$ sudo docker run -name minecraftmap thoughtpolice/minecraft
+$ sudo docker run -name minecraftmap -t thoughtpolice/minecraft
 ^C
 ```
 
@@ -16,7 +16,7 @@ container. This will preserve the map data. When upgrading the server,
 just mount the volumes from `minecraftmap` again:
 
 ```
-$ sudo docker run -name minecraft -volumes-from minecraftmap -d thoughtpolice/minecraft
+$ sudo docker run -p 25565:25565 -name minecraft -volumes-from minecraftmap -d thoughtpolice/minecraft
 ```
 
 You can inspect the `minecraft` container to locate the `/minecraft`
