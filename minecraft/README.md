@@ -2,13 +2,13 @@
 
 [repo]: https://index.docker.io/u/thoughtpolice/minecraft
 
-Start a server and generate some world data. Once it's done, stop it:
+Start a server and generate some world data. Once it's done, stop it
+(with a `^C`):
 
 ```
 $ sudo docker pull thoughtpolice/minecraft
-$ sudo docker run -name minecraftmap -t thoughtpolice/minecraft
+$ sudo docker run -name minecraftmap thoughtpolice/minecraft
 ^C
-$ sudo docker stop minecraftmap
 ```
 
 Now start the server again, and mount the volumes from the old
