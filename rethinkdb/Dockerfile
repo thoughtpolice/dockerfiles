@@ -19,10 +19,11 @@ RUN pip install rethinkdb
 
 # Set correct permissions for /data
 RUN mkdir /data
+WORKDIR /data
+VOLUME /data
 
 EXPOSE 8080
 EXPOSE 28015
 EXPOSE 29015
 
-WORKDIR /data
 CMD ["rethinkdb", "--bind", "all"]
