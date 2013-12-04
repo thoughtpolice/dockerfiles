@@ -11,19 +11,18 @@ RUN echo deb http://archive.ubuntu.com/ubuntu precise main universe multiverse >
 RUN apt-get update
 RUN apt-get install python-software-properties less git -y
 
-# Install nodejs/redis-server
+# Install nodejs
 RUN add-apt-repository ppa:chris-lea/node.js -y
-RUN apt-get update
-RUN apt-get install nodejs -y
+RUN apt-get update && apt-get install nodejs -y
 
 # Install and create hubot
 RUN npm install -g hubot coffee-script
-RUN hubot --create .
-RUN npm install hubot-irc --save
-RUN npm install
-RUN chmod +x bin/hubot
+RUN hubot --create hubot
+ADD hubot-scripts.json hubot/hubot-scripts.json
 
-# Add scripts
-ADD hubot-scripts.json hubot-scripts.json
+RUN cd hubot && npm install hubot-irc --save && npm install
+RUN chmod +x hubot/bin/hubot
 
-CMD hubot -a irc --name $HUBOT_IRC_NICK
+WORKDIR /hubot
+CMD ["-a","irc","--name","$HUBOT_IRC_NICK"]
+ENTRYPOINT ["/hubot/bin/hubot"]
